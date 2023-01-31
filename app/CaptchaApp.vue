@@ -2,6 +2,7 @@
 import WSClient from './WSClient';
 import { NConfigProvider, darkTheme, NButton } from 'naive-ui';
 import { reactive } from 'vue';
+import InitView from './views/InitView.vue';
 
 const state = reactive<{
     mode: 'init' | 'matchmaking' | 'game' | 'end',
@@ -28,18 +29,11 @@ document.addEventListener('matchMakingUpdate', () => {
 </script>
 
 <template>
-    <div class="captcha">
-        <NConfigProvider :theme="darkTheme">
-            <div v-if="state.mode === 'init'">
-                <b>
-                    To complete the captcha, you will need to win a game against a random opponent.
-                    Click on the button below to start matchmaking.
-                </b>
-
-                <NButton @click="beginMatchmaking">
-                    Start matchmaking
-                </NButton>
-            </div>
+    <NConfigProvider :theme="darkTheme">
+        <div class="captcha">
+            <template v-if="state.mode === 'init'">
+                <InitView></InitView>
+            </template>
             <div v-if="state.mode === 'matchmaking'">
                 <b>
                     Matchmaking in progress...
@@ -52,13 +46,12 @@ document.addEventListener('matchMakingUpdate', () => {
                     {{ WSClient.gameId }}
                 </b>
             </div>
-        </NConfigProvider>
-    </div>
+        </div>
+    </NConfigProvider>
 </template>
 
 
 <style scoped>
-
 .captcha {
     color: white;
     background-color: black;
