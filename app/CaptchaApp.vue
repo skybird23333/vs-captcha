@@ -3,6 +3,8 @@ import WSClient from './WSClient';
 import { NConfigProvider, darkTheme, NButton } from 'naive-ui';
 import { reactive } from 'vue';
 import InitView from './views/InitView.vue';
+import MatchmakingView from './views/MatchmakingView.vue';
+import WinView from './views/WinView.vue';
 
 const state = reactive<{
     mode: 'init' | 'matchmaking' | 'game' | 'end',
@@ -23,7 +25,10 @@ document.addEventListener('gameFound', () => {
 
 document.addEventListener('matchMakingUpdate', () => {
     state.matchMakingTimeout = WSClient.matchMakingTimeout;
-    console.log(WSClient.matchMakingTimeout)
+})
+
+document.addEventListener('gameWon', () => {
+    state.mode = 'end';
 })
 
 </script>
@@ -32,20 +37,20 @@ document.addEventListener('matchMakingUpdate', () => {
     <NConfigProvider :theme="darkTheme">
         <div class="captcha">
             <template v-if="state.mode === 'init'">
-                <InitView></InitView>
+                <InitView @beginMatchmaking="beginMatchmaking"></InitView>
             </template>
-            <div v-if="state.mode === 'matchmaking'">
-                <b>
-                    Matchmaking in progress...
-                    {{ state.matchMakingTimeout }}
-                </b>
-            </div>
+            <template v-if="state.mode === 'matchmaking'">
+                <MatchmakingView :timeout="state.matchMakingTimeout"></MatchmakingView>
+            </template>
             <div v-if="state.mode === 'game'">
                 <b>
                     Game found!
                     {{ WSClient.gameId }}
                 </b>
             </div>
+            <template v-if="state.mode === 'end'">
+                <WinView :winReason="WSClient.gameEndReason"></WinView>
+            </template>
         </div>
     </NConfigProvider>
 </template>

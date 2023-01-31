@@ -53,6 +53,7 @@ export class WSHandler {
             switch(e) {
                 case 'TIMEOUT':
                     this.send(5, { reason: 'MATCHMAKING_TIMEOUT'})
+                    this.mode = 'connected'
                 case 'WITHDRAWN':
                     break
                 default:

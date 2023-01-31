@@ -1,9 +1,14 @@
+import { winReasons, loseReasons } from "../src/types/WSPacket";
+
 export default new class WSClient{
     ws = new WebSocket('ws://localhost:3000/ws');
     gameId: string;
     public matchMakingTimeout: number;
+    gameEndReason: winReasons | loseReasons;
     gameFoundEvent = new Event('gameFound');
     matchmakingUpdateEvent = new Event('matchMakingUpdate');
+    gameWonEvent = new Event('gameWon');
+    gameLostEvent = new Event('gameLost');
 
     constructor() {
         this.ws.onopen = () => {
@@ -26,6 +31,14 @@ export default new class WSClient{
             case 3:
                 this.gameId = data.data.gameId;
                 document.dispatchEvent(this.gameFoundEvent);
+                break;
+            case 5:
+                this.gameEndReason = data.data.reason;
+                document.dispatchEvent(this.gameWonEvent);
+                break;
+            case 6:
+                this.gameEndReason = data.data.reason;
+                document.dispatchEvent(this.gameLostEvent);
                 break;
         }
     }

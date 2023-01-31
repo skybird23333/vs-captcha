@@ -25,10 +25,10 @@
 }
 
 .left {
-    background-color: darkblue;
+    background-color: rgb(0, 0, 70);
 }
 
 .right {
-    background-color: darkred;
+    background-color: rgb(70, 0, 0);
 }
 </style>
