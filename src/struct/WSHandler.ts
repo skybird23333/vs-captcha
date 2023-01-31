@@ -49,6 +49,15 @@ export class WSHandler {
             this.mode = 'game'
             this.gameId = game.gameId
         })
+        .catch((e) => {
+            switch(e) {
+                case 'TIMEOUT':
+                    this.ws.send(5, { reason: 'MATCHMAKING_TIMEOUT'})
+                case 'WITHDRAWN':
+                    break
+                default:
+            }
+        })
     }
 
     private onMessage(msg: string) {

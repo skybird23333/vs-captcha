@@ -3,6 +3,15 @@ export interface IWSBasePacket {
     d?: any
 }
 
+export type winReasons =
+    'MATCHMAKING_TIMEOUT' |
+    'GAME_TIE' |
+    'GAME_WIN' |
+    'OPPONENT_DISCONNECTED' 
+
+export type loseReasons =
+    'GAME_LOSE'
+
 // NAMING
 // I = Interface
 // WS = Websocket
@@ -32,4 +41,22 @@ export interface IWSCMatchmakingUpdate extends IWSBasePacket {
 }
 export interface IWSCGameFound extends IWSBasePacket {
     o: 3
+}
+export interface IWSAGameUpdate extends IWSBasePacket {
+    o: 4
+    d: any
+}
+
+export interface IWSCGameWin extends IWSBasePacket {
+    o: 5
+    d: {
+        reason: winReasons
+    }
+}
+
+export interface IWSCGameLose extends IWSBasePacket {
+    o: 6
+    d: {
+        reason: loseReasons
+    }
 }
