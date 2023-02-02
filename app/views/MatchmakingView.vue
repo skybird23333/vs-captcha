@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { NButton, NSpin } from 'naive-ui';
 import BaseViewVue from './BaseView.vue'
+import WSClient from '../WSClient';
 const { timeout } = defineProps(['timeout'])
 </script>
 
 <template>
     <BaseViewVue>
         <template #left>
-            <div class="centered">
-                <b>
-                    Searching for a match...
-                </b>
+            <div style="font-size: xx-small; color: grey">
+                U-{{ WSClient.uid }}
             </div>
         </template>
         <template #right>
@@ -18,7 +17,7 @@ const { timeout } = defineProps(['timeout'])
                 <h1>
                     {{ 60 - timeout }}
                 </h1>
-                <NSpin></NSpin>
+                Searching for a match...
             </div>
         </template>
     </BaseViewVue>

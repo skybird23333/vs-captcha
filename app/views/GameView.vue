@@ -7,16 +7,16 @@ import BaseViewVue from './BaseView.vue'
 <template>
     <BaseViewVue>
         <template #left>
-            <b>
-                To complete the captcha, you will need to win a game against a random opponent.
-                Click on the button to start matchmaking.
-            </b>
+            <div style="font-size: xx-small; color: grey">
+                U-{{ WSClient.uid }}
+            </div>
+            Game found!
         </template>
         <template #right class="background-color: none;">
+            <div style="font-size: xx-small; color: grey">
+                G-{{ WSClient.gameId }}
+            </div>
             <div class="centered">
-                <NButton @click="$emit('beginMatchmaking')" type="primary">
-                    Start matchmaking
-                </NButton>
             </div>
         </template>
     </BaseViewVue>

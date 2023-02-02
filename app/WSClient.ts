@@ -2,7 +2,9 @@ import { winReasons, loseReasons } from "../src/types/WSPacket";
 
 export default new class WSClient{
     ws = new WebSocket('ws://localhost:3000/ws');
-    gameId: string;
+    gameId?: string;
+    uid?: string
+    version?: string
     public matchMakingTimeout: number;
     gameEndReason: winReasons | loseReasons;
     gameFoundEvent = new Event('gameFound');
@@ -24,6 +26,10 @@ export default new class WSClient{
     onWSMessage(msg: MessageEvent) {
         const data = JSON.parse(msg.data);
         switch (data.o) {
+            case 1:
+                this.uid = data.data.uid
+                this.version = data.data.version
+                break;
             case 2:
                 this.matchMakingTimeout = data.data.seconds;
                 document.dispatchEvent(this.matchmakingUpdateEvent);
@@ -47,6 +53,7 @@ export default new class WSClient{
     }
 
     send(o: number, data?: any) {
+        console.log(`--> ${JSON.stringify({ o, data })}`)
         this.ws.send(JSON.stringify({ o, data }));
     }
 

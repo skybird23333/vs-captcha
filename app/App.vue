@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import CaptchaApp from './CaptchaApp.vue';
-import WSClient from './WSClient';
-
-WSClient.init()
 </script>
 
 <template>

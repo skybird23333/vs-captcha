@@ -5,6 +5,9 @@ import { reactive } from 'vue';
 import InitView from './views/InitView.vue';
 import MatchmakingView from './views/MatchmakingView.vue';
 import WinView from './views/WinView.vue';
+import GameView from './Views/GameView.vue';
+
+WSClient.init()
 
 const state = reactive<{
     mode: 'init' | 'matchmaking' | 'game' | 'end',
@@ -42,12 +45,9 @@ document.addEventListener('gameWon', () => {
             <template v-if="state.mode === 'matchmaking'">
                 <MatchmakingView :timeout="state.matchMakingTimeout"></MatchmakingView>
             </template>
-            <div v-if="state.mode === 'game'">
-                <b>
-                    Game found!
-                    {{ WSClient.gameId }}
-                </b>
-            </div>
+            <template v-if="state.mode === 'game'">
+                <GameView />
+            </template>
             <template v-if="state.mode === 'end'">
                 <WinView :winReason="WSClient.gameEndReason"></WinView>
             </template>

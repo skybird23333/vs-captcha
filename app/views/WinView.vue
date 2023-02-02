@@ -32,11 +32,11 @@ const opponentLoseReasons = {
         </template>
         <template #right>
             <div class="centered">
-                <h1>
+                <h3>
                     Defeat
-                </h1>
+                </h3>
                 <div style="margin: 5px">
-                    {{ winReasons[winReason] }}
+                    {{ opponentLoseReasons[winReason] }}
                 </div>
             </div>
         </template>
