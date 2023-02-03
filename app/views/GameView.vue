@@ -1,20 +1,21 @@
-<script setup>
-import { NButton } from 'naive-ui';
+<script setup lang="ts">
+import { inject } from 'vue'
 import WSClient from '../WSClient';
 import BaseViewVue from './BaseView.vue'
+const client = inject<WSClient>('client')
 </script>
 
 <template>
     <BaseViewVue>
         <template #left>
             <div style="font-size: xx-small; color: grey">
-                U-{{ WSClient.uid }}
+                U-{{ client?.uid }}
             </div>
             Game found!
         </template>
         <template #right class="background-color: none;">
             <div style="font-size: xx-small; color: grey">
-                G-{{ WSClient.gameId }}
+                G-{{ client?.gameId }}
             </div>
             <div class="centered">
             </div>

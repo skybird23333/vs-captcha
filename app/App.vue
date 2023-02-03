@@ -4,7 +4,15 @@ import CaptchaApp from './CaptchaApp.vue';
 
 <template>
     <div class="game">
+        <h1>
+            My login form
+        </h1>
+        Username
+        <input><br>
+        Password
+        <input><br>
         <CaptchaApp />
+        <button disabled>Login</button>
     </div>
 </template>
 
@@ -16,7 +24,6 @@ import CaptchaApp from './CaptchaApp.vue';
     justify-content: center;
     height: 100vh;
     width: 100vw;
-    background-color: rgb(36, 36, 36);
 }
 
 body {

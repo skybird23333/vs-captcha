@@ -15,17 +15,18 @@ export type loseReasons =
 // NAMING
 // I = Interface
 // WS = Websocket
+// Game = Game specific packets
 // A = All (both ways)
 // C = Clientbound
 // S = Serverbound
-// IWS[A|C|S][PacketName]
+// I[WS/Game][A|C|S][PacketName]
 
 /**
  * Clientbound, sent on connect
  */
 export interface IWSCInit extends IWSBasePacket {
     o: 1
-    d: {
+    data: {
         uid: string
         version: number
     }
@@ -35,7 +36,7 @@ export interface IWSSBeginMatchmaking extends IWSBasePacket {
 }
 export interface IWSCMatchmakingUpdate extends IWSBasePacket {
     o: 2
-    d: {
+    data: {
         seconds: number
     }
 }
@@ -44,19 +45,66 @@ export interface IWSCGameFound extends IWSBasePacket {
 }
 export interface IWSAGameUpdate extends IWSBasePacket {
     o: 4
-    d: any
+    c: string
+    data?: any
 }
 
 export interface IWSCGameWin extends IWSBasePacket {
     o: 5
-    d: {
+    data: {
         reason: winReasons
     }
 }
 
 export interface IWSCGameLose extends IWSBasePacket {
     o: 6
-    d: {
+    data: {
         reason: loseReasons
     }
 }
+
+export namespace Games {
+    export namespace Common {
+        export interface ICGameCountdown extends IWSAGameUpdate {
+            c: 'C1'
+            data: {
+                seconds: number
+            }
+        }
+        export interface ICGameStart extends IWSAGameUpdate {
+            c: 'C2'
+        }
+    }
+    export namespace TicTacToe {
+        export interface ICGameInit extends IWSAGameUpdate {
+            c: 'T1'
+            data: {
+                starter: boolean,
+                isCircle: boolean
+            }
+        }
+        export interface ISGamePlacement extends IWSAGameUpdate {
+            c: 'T2'
+            data: {
+                //Origin is top left
+                x: 0 | 1 | 2 | 3 | 4 | 5,
+                y: 0 | 1 | 2 | 3
+            }
+        }
+        export interface ICGameMapUpdate extends IWSAGameUpdate {
+            c: 'T3'
+            data: {
+                map: [
+                    [ number, number, number, number, number, number ],
+                    [ number, number, number, number, number, number ],
+                    [ number, number, number, number, number, number ],
+                    [ number, number, number, number, number, number ],
+                ],
+                time: {
+                    you: number,
+                    opponent: number
+                }
+            }
+        }
+    }
+}   

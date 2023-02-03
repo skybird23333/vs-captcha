@@ -84,7 +84,7 @@ export class WSHandler {
             this.matchmakingPassedTime += delta
             this.send(2, { seconds: Math.floor(this.matchmakingPassedTime / 1000) })
         }
-
+        
         this.latencyTimer = new Date()
         this.ws.ping()
     }

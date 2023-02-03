@@ -1,6 +1,5 @@
 <script setup>
 import { NButton } from 'naive-ui';
-import WSClient from '../WSClient';
 import BaseViewVue from './BaseView.vue'
 </script>
 

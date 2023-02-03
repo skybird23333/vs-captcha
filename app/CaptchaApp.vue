@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import WSClient from './WSClient';
 import { NConfigProvider, darkTheme, NButton } from 'naive-ui';
-import { reactive } from 'vue';
+import { provide, reactive } from 'vue';
 import InitView from './views/InitView.vue';
 import MatchmakingView from './views/MatchmakingView.vue';
 import WinView from './views/WinView.vue';
 import GameView from './Views/GameView.vue';
 
-WSClient.init()
+const client = new WSClient()
+
+client.init()
+
+provide<WSClient>('client', client)
 
 const state = reactive<{
     mode: 'init' | 'matchmaking' | 'game' | 'end',
@@ -19,7 +23,7 @@ const state = reactive<{
 
 const beginMatchmaking = () => {
     state.mode = 'matchmaking';
-    WSClient.beginMatchMaking();
+    client.beginMatchMaking();
 }
 
 document.addEventListener('gameFound', () => {
@@ -27,7 +31,7 @@ document.addEventListener('gameFound', () => {
 })
 
 document.addEventListener('matchMakingUpdate', () => {
-    state.matchMakingTimeout = WSClient.matchMakingTimeout;
+    state.matchMakingTimeout = client.matchMakingTimeout;
 })
 
 document.addEventListener('gameWon', () => {
@@ -49,7 +53,7 @@ document.addEventListener('gameWon', () => {
                 <GameView />
             </template>
             <template v-if="state.mode === 'end'">
-                <WinView :winReason="WSClient.gameEndReason"></WinView>
+                <WinView :winReason="client.gameEndReason"></WinView>
             </template>
         </div>
     </NConfigProvider>

@@ -1,6 +1,6 @@
 import { winReasons, loseReasons } from "../src/types/WSPacket";
 
-export default new class WSClient{
+export default class WSClient{
     ws = new WebSocket('ws://localhost:3000/ws');
     gameId?: string;
     uid?: string
@@ -16,7 +16,7 @@ export default new class WSClient{
         this.ws.onopen = () => {
             console.log('Connected to WS server');
         };
-
+        
         this.ws.onmessage = (msg) => {
             console.log(msg.data);
             this.onWSMessage(msg)
